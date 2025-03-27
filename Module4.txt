@@ -1,0 +1,203 @@
+   
+1)  mysql> create table contact(contactID int not null primary key auto_increment, companyID int,Firstname varchar(45),Lastnamae varchar(45),street varchar(45),city varchar(45),state varchar(2),Zip varchar(10), Ismain boolean,Email varchar(45),phone varchar(12));
+Query OK, 0 rows affected (0.54 sec)
+
+mysql> alter table contact add foreign key(companyID) references company(companyID);
+Query OK, 0 rows affected (2.31 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc contact;
++-----------+-------------+------+-----+---------+----------------+
+| Field     | Type        | Null | Key | Default | Extra          |
++-----------+-------------+------+-----+---------+----------------+
+| contactID | int         | NO   | PRI | NULL    | auto_increment |
+| companyID | int         | YES  | MUL | NULL    |                |
+| Firstname | varchar(45) | YES  |     | NULL    |                |
+| Lastnamae | varchar(45) | YES  |     | NULL    |                |
+| street    | varchar(45) | YES  |     | NULL    |                |
+| city      | varchar(45) | YES  |     | NULL    |                |
+| state     | varchar(2)  | YES  |     | NULL    |                |
+| Zip       | varchar(10) | YES  |     | NULL    |                |
+| Ismain    | tinyint(1)  | YES  |     | NULL    |                |
+| Email     | varchar(45) | YES  |     | NULL    |                |
+| phone     | varchar(12) | YES  |     | NULL    |                |
++-----------+-------------+------+-----+---------+----------------+
+
+2)  mysql> create table employee(EmployeeID int not null primary key auto_increment,firstName varchar(45),Lastname varchar(45),salary decimal(10,2),hiredate date,jobtitle varchar(25),email varchar(45), phone varchar(12));
+Query OK, 0 rows affected (0.31 sec)
+
+mysql> desc employee;
++------------+---------------+------+-----+---------+----------------+
+| Field      | Type          | Null | Key | Default | Extra          |
++------------+---------------+------+-----+---------+----------------+
+| EmployeeID | int           | NO   | PRI | NULL    | auto_increment |
+| firstName  | varchar(45)   | YES  |     | NULL    |                |
+| Lastname   | varchar(45)   | YES  |     | NULL    |                |
+| salary     | decimal(10,2) | YES  |       NULL    |                |
+| hiredate   | date          | YES  |     | NULL    |                |
+| jobtitle   | varchar(25)   | YES  |     | NULL    |                |
+| email      | varchar(45)   | YES  |     | NULL    |                |
+| phone      | varchar(12)   | YES  |     | NULL    |                |
++------------+---------------+------+-----+---------+----------------+
+
+3) mysql> create table ContactEmployee(ContactEmployeeID int,ContactId int,EmployeID int,ContactDate Date,description varchar(100));
+Query OK, 0 rows affected (0.69 sec)
+
+mysql> alter table contactEmployee add foreign key(contactID) references contact (contactID);
+Query OK, 0 rows affected (1.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+
+mysql> alter table contactemployee add foreign key(employeID) references employee(employeeID);
+Query OK, 0 rows affected (1.30 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc contactemployee;
++-------------------+--------------+------+-----+---------+-------+
+| Field             | Type         | Null | Key | Default | Extra |
++-------------------+--------------+------+-----+---------+-------+
+| ContactEmployeeID | int          | YES  |     | NULL    |       |
+| ContactId         | int          | YES  | MUL | NULL    |       |
+| EmployeID         | int          | YES  | MUL | NULL    |       |
+| ContactDate       | date         | YES  |     | NULL    |       |
+| description       | varchar(100) | YES  |     | NULL    |       |
++-------------------+--------------+------+-----+---------+-------+
+
+mysql> select* from company;
++-----------+-------------------------+---------+----------+-------+--------+
+| companyid | companyName             | street  | city     | state | zip    |
++-----------+-------------------------+---------+----------+-------+--------+
+|       101 | Tidal Wave Technologies | tarsali | vadodara | GJ    | 396191 |
+|       102 | Warrior Tech Services   | tukwada | vadodara | GJ    | 396191 |
+|       103 | Drive Web Consulting    | tukwada | vadodara | GJ    | 396191 |
++-----------+-------------------------+---------+----------+-------+--------+
+
+
+
+mysql> select* from contact;
++-----------+-----------+-----------+-----------+---------+----------+-------+--------+--------+--------------------+-----------+
+| contactID | companyID | Firstname | Lastnamae | street  | city     | state | Zip    | Ismain | Email              | phone     |
++-----------+-----------+-----------+-----------+---------+----------+-------+--------+--------+--------------------+-----------+
+|       201 |       101 | raja      | singh     | tarsali | vadodara | GJ    | 396191 |      2 | raja@gmail.com     | 962839128 |
+|       202 |       102 | prince    | singh     | tukwada | vadodara | GJ    | 396191 |      1 | prince@gmail.com   | 962839128 |
+|       203 |       103 | Akhilesh  | singh     | tukwada | vadodara | GJ    | 396191 |      0 | Akhilesh@gmail.com | 962839128 |
++-----------+-----------+-----------+-----------+---------+----------+-------+--------+--------+--------------------+-----------+
+
+mysql> select* from contactemployee;
++-------------------+-----------+-----------+-------------+-------------+
+| ContactEmployeeID | ContactId | EmployeID | ContactDate | description |
++-------------------+-----------+-----------+-------------+-------------+
+|               401 |       201 |       301 | 2025-01-12  | project     |
+|               402 |       202 |       302 | 2025-10-23  | requriment  |
++-------------------+-----------+-----------+-------------+-------------+
+
+mysql> select* from employee;
++------------+-----------+----------+----------+------------+--------------------+------------------+-----------+
+| EmployeeID | firstName | Lastname | salary   | hiredate   | jobtitle           | email            | phone     |
++------------+-----------+----------+----------+------------+--------------------+------------------+-----------+
+|        301 | prince    | singh    | 20000.00 | 2001-02-01 | software developer | prince@gmail.com | 98864673  |
+|        302 | akash     | singh    | 20300.00 | 2006-12-01 |  developer         | Akash@gmail.com  | 982364673 |
+|        303 | aayush    | singh    | 34200.00 | 2012-12-12 |  data science      | ayush@gmail.com  | 99909932  |
++------------+-----------+----------+----------+------------+--------------------+------------------+-----------+
+
+
+mysql>  update employee set phone = '345-654-333' where employeeID=303;
+Query OK, 1 row affected (0.10 sec)
+
+
+mysql> select* from employee;
++------------+-----------+----------+----------+------------+--------------------+------------------+-------------+
+| EmployeeID | firstName | Lastname | salary   | hiredate   | jobtitle           | email            | phone       |
++------------+-----------+----------+----------+------------+--------------------+------------------+-------------+
+|        301 | prince    | singh    | 20000.00 | 2001-02-01 | software developer | prince@gmail.com | 98864673    |
+|        302 | akash     | singh    | 20300.00 | 2006-12-01 |  developer         | Akash@gmail.com  | 982364673   |
+|        303 | aayush    | singh    | 34200.00 | 2012-12-12 |  data science      | ayush@gmail.com  | 345-654-333 |
++------------+-----------+----------+----------+------------+--------------------+------------------+-------------+
+
+mysql> update company set companyname="manipal" where companyname="drive web consulting";
+Query OK, 1 row affected (0.15 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select* from company;
++-----------+-------------------------+---------+----------+-------+--------+
+| companyid | companyName             | street  | city     | state | zip    |
++-----------+-------------------------+---------+----------+-------+--------+
+|       101 | Tidal Wave Technologies | tarsali | vadodara | GJ    | 396191 |
+|       102 | Warrior Tech Services   | tukwada | vadodara | GJ    | 396191 |
+|       103 | manipal                 | tukwada | vadodara | GJ    | 396191 |
++-----------+-------------------------+---------+----------+-------+--------+
+
+mysql> delete from contactemployee where contactId=(select contactId from contact where firstname="akhilesh" and lastnamae= "singh")
+>and employeid =(select employeid from employee where firstname= "akhilesh" and lastname = "singh");
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> select* from contactemployee;
++-------------------+-----------+-----------+-------------+-------------+
+| ContactEmployeeID | ContactId | EmployeID | ContactDate | description |
++-------------------+-----------+-----------+-------------+-------------+
+|               401 |       201 |       301 | 2025-01-12  | project     |
+|               402 |       202 |       302 | 2025-10-23  | requriment  |
++-------------------+-----------+-----------+-------------+-------------+
+
+What is the significance of “%” and “_” operators in the LIKE statement?
+--> The % and _ operator in sql like statement help with pattern matching  the data in table or column to serach the data that match.
+ Example- select * from Employee where  firstname like  'J%';
+FirstName start with J like Jaideep,Jai,etc;
+
+(_) underscores --> matches exactly one character in table
+select * from employee where firstName Like 'J_i';
+firstName is like Jai.
+
+) Explain normalization in the context of databases. 
+--> Normalization is the process of organizing a database to remove duplicate data and improve efficiency.
+ It helps in reducing data redundancy and maintaining data integrity by breaking large tables into smaller related tables.
+
+  --> Normalization 3 Levels forms
+       1NF - 1Normal forms
+       2NF - 2Normal forms
+       3NF - 3Normal Forms
+
+) What does a join in MySQL mean?
+--> A Join in SQL is used to combine data from two or more tables based on a related column and 
+   by using Foreign key. 
+
+  There are more joins 
+  1) inner join --> In which only common data will show, combines data only where there is a match in both tables.
+  2) Left join --> It return all rows from the left table and only the matching rows from the right table.If there is no match,it returns NULL for the right table.
+  3) right Join --> It returns all rows from the right table and only the matching rows from the left table. If there is no match,it returns NULL for the left table.
+
+)  What do you understand about DDL, DCL, and DML in MySQL?
+--> DCL- Data Definition Language 
+   1)create -It use create the new databases,table
+   2)alter - It use update,add,remove,change column Name
+   3)Drop - It use to drop the table,databases
+   4)truncate - It use delete all records from table.
+  
+   DML (Data Manipulation Language)
+  1)Insert -Add new record in table
+  2)update - It modify the record from existing table
+  3)delete - Remove the record from table
+
+  DCL- (Data Control Language)
+ 1) Grant - Gives specific permissions to a user or role
+ 2) Revoke - Remove specific permissions from a user or role
+
+ TCL -(Transaction Control Language)
+ 1)commit - Saves all changes made in the current table
+ 2) RollBack - Rollback is used to undo changes made in a transaction before a  is executed
+
+ DQL -(data query Language)
+ select - Retrieves data from one or more tables
+
+) What is the role of the MySQL JOIN clause in a query, and what are some common types of joins?
+  --> A Join in SQL is used to combine data from two or more tables based on a related column and 
+   by using Foreign key. 
+
+  There are more joins 
+  1) inner join --> In which only common data will show, combines data only where there is a match in both tables.
+  2) Left join --> It return all rows from the left table and only the matching rows from the right table.If there is no match,it returns NULL for the right table.
+  3) right Join --> It returns all rows from the right table and only the matching rows from the left table. If there is no match,it returns NULL for the left table.
+  4) Full outer join -->All rows from both tables.
+
+
+
